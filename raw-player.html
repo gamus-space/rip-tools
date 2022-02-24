@@ -1,0 +1,86 @@
+<textarea id="c" style="width: 100%; height: 15em"></textarea>
+<input id="f" type="file" onchange="upload()"/><br />
+<button onclick="play()">play</button>
+<button onclick="stop()">stop</button>
+<button onclick="where()">pos?</button>
+<label>start:<input id="from" type="text" value="0x0" /></label>
+<label>end:<input id="to" type="text" value="0x0" /></label>
+<label>freq:<input id="fr" type="text" value="8363" /></label>
+
+<script type="text/javascript">
+
+const volume = 0.2;
+
+const audioCtx = new AudioContext();
+const gainNode = audioCtx.createGain();
+gainNode.gain.value = volume;
+gainNode.connect(audioCtx.destination);
+
+let pos;
+
+function upload() {
+	if (f.files.length === 0) return;
+	const reader = new FileReader();
+	reader.onload = e => c.value = '[' + new Uint8Array(e.target.result) + ']';
+	reader.readAsArrayBuffer(f.files[0]);
+	from.value = "0";
+	to.value = "0";
+}
+
+function where() {
+	console.log(pos);
+}
+
+function play() {
+	if (pos) return;
+	const data = JSON.parse(c.value);
+	console.log(data);
+	const freq = (parseInt(fr.value) || 44100) / audioCtx.sampleRate;
+	pos = parseInt(from.value) || 0;
+	const maxPos = parseInt(to.value) || data.length;
+
+	let source = audioCtx.createBufferSource();
+	scriptNode = audioCtx.createScriptProcessor(2048);
+	scriptNode.onaudioprocess = (event) => {
+		let ch = event.outputBuffer.getChannelData(0);
+		for (let i = 0; i < event.outputBuffer.length; i++) {
+			if (pos === undefined) ch[i] = 0;
+			else ch[i] = (data[Math.round(pos += freq)] - 128) / 128;
+			if (pos >= maxPos) { stop(); }
+		}
+	};
+	source.connect(scriptNode);
+	scriptNode.connect(gainNode);
+	source.start();
+}
+
+function stop() {
+	console.log('end');
+	pos = undefined;
+	scriptNode.disconnect();
+}
+
+</script>
+
+<pre>
++ BMANIA.CDF (full)
+  start: 0x0032FAFB
+  end: 0x003DBFB3
+
++ BMANIA.DUMP (full) 00af:1000
+  start: 0x002FF000
+  end: 0x003CB300
+  squarewv.s3s: 0x00376000
+  ahhh.s3s:     0x00381000
+  tekb2!.s3s:   0x003D7000
+  Bassbuz7.s3s: 0x003DD000
+  bloop.s3s:    0x003DF000
+
++ BMANIA.CDF (demo)
+  start: 0x000EC1C0
+  end: 0x00162534
+
++ BMANIA.DUMP (demo) 00af:1000
+  start: 0x0026B000
+  end: 0x0031A300
+</pre>
