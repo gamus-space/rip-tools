@@ -106,6 +106,9 @@ function optimize(original, modified) {
 		newFile[instrumentPtr+13] = (newOffset >> 16) & 0xff;
 		newFile[instrumentPtr+14] = (newOffset >> 0) & 0xff;
 		newFile[instrumentPtr+15] = (newOffset >> 8) & 0xff;
+		if (sample.length === 0) {
+			newFile.set([0, 0, 0, 0], instrumentPtr+16);
+		}
 	}
 	fs.writeFileSync(modified, newFile.slice(0, newFileSize));
 }
