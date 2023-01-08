@@ -6,7 +6,10 @@ Tools for ripping game music:
 - raw-player.html - plays samples
 - optimize-st3.js - remove unnecessary data from file
 - rip-midi.js - rips MIDI files with auto-naming feature
+- slice.js - cut slices from file
 
 Supported games:
 - Super Bubble Mania - https://www.mobygames.com/game/dos/super-bubble-mania
 - Prince of Persia 2 - https://www.mobygames.com/game/prince-of-persia-2-the-shadow-the-flame
+- Cannon Fodder - https://www.mobygames.com/game/cannon-fodder
+- Lure of the Temptress - https://www.mobygames.com/game/lure-of-the-temptress

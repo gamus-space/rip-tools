@@ -37,6 +37,8 @@ let pos = 0;
 while (pos < data.byteLength) {
 	const start = data.findString(pos, 'MThd');
 	if (start == null) break;
+	if (data.getUint16(start+10) !== 1)
+		throw new Error("multitrack midi not supported");
 	pos = start+4;
 	const track = data.findString(pos, 'MTrk');
 	if (track == null) break;
@@ -58,10 +60,24 @@ while (pos < data.byteLength) {
 		}
 		pos -= 4;
 	}
+
 	pos += length;
 	const end = pos;
-
 	console.log(name, start, end);
-	fs.writeFileSync(name, new DataView(data.buffer.slice(start, end)));
+
+	const MAX_SCAN = 10;
+	pos -= 4;
+	for (let i = 0; i < MAX_SCAN; i++, pos++) {
+		if (data.getUint32(pos) === 0x00ff2f00) break;
+	}
+	const dataEnd = pos+4;
+	if (data.getUint32(pos) !== 0x00ff2f00)
+		console.error('warning: missing end signature');
+	else if (dataEnd !== end) {
+		console.error('found end signature', dataEnd-end);
+		data.setUint32(track+4, length + dataEnd-end);
+	}
+
+	fs.writeFileSync(name, new DataView(data.buffer.slice(start, dataEnd)));
 }
 console.log(`total songs: ${count}`);
