@@ -4,7 +4,10 @@ const fs = require('fs');
 const process = require('process');
 
 function slice(file, part, from, to) {
-	fs.writeFileSync(file + '.' + part, fs.readFileSync(file).slice(from, to));
+	let target;
+	if (typeof part === 'string') target = part;
+	if (typeof part === 'number') target = file + '.' + part;
+	fs.writeFileSync(target, fs.readFileSync(file).slice(from, to));
 }
 
 if (process.argv.length != 3) {
@@ -31,6 +34,26 @@ case 'cf':
 	slice('fodmus.adl', 4, 0x6242, 0x793e);
 	slice('fodmus.adl', 5, 0x793e, 0x80a9);
 	slice('fodmus.adl', 6, 0x80a9, undefined);
+	break;
+case 'dr':
+	let offset = 0x10F3;
+	slice('MUSICS.BPA', 'MEN-SAM.CMF', offset, offset+=323793);
+	slice('MUSICS.BPA', 'MEN-MUS.CMF', offset, offset+=505857);
+	slice('MUSICS.BPA', 'TR1-MUS.CMF', offset, offset+=367474);
+	slice('MUSICS.BPA', 'TR2-MUS.CMF', offset, offset+=212904);
+	slice('MUSICS.BPA', 'TR3-MUS.CMF', offset, offset+=279736);
+	slice('MUSICS.BPA', 'TR4-MUS.CMF', offset, offset+=309472);
+	slice('MUSICS.BPA', 'TR5-MUS.CMF', offset, offset+=325036);
+	slice('MUSICS.BPA', 'TR6-MUS.CMF', offset, offset+=326656);
+	slice('MUSICS.BPA', 'TR7-MUS.CMF', offset, offset+=373158);
+	slice('MUSICS.BPA', 'TR8-MUS.CMF', offset, offset+=251720);
+	slice('MUSICS.BPA', 'TR0-MUS.CMF', offset, offset+=443884);
+	slice('MUSICS.BPA', 'ENDANI0E.CMF', offset, offset+=333608);
+	slice('MUSICS.BPA', 'SANIM-E.CMF', offset, offset+=628468);
+	slice('MUSICS.BPA', 'ENDANI-E.CMF', offset, offset+=302473);
+	slice('MUSICS.BPA', 'GEN-EFE.CMF', offset, offset+=385187);
+	slice('MUSICS.BPA', 'TR9-MUS.CMF', offset, offset+=352794);
+	console.log(offset);
 	break;
 default:
 	console.error(`unknown game: ${game}`);
