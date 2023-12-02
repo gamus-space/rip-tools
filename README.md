@@ -9,6 +9,8 @@ Tools for ripping game music:
 - slice.js - cut slices from file
 - list.js - lists contents of game archive
 - decrypt.js - decode game resource
+- rip-hmi.js - rip HMI and BNK files
+- split-wav.js - split wavefile into subtracks
 
 Supported games:
 - Super Bubble Mania - https://www.mobygames.com/game/dos/super-bubble-mania
@@ -16,3 +18,5 @@ Supported games:
 - Cannon Fodder - https://www.mobygames.com/game/cannon-fodder
 - Lure of the Temptress - https://www.mobygames.com/game/lure-of-the-temptress
 - Death Rally - https://www.mobygames.com/game/dos/death-rally
+- Tomb Raider 3 - https://www.mobygames.com/game/1428/tomb-raider-iii-adventures-of-lara-croft/
+- Return Fire - https://www.mobygames.com/game/3006/return-fire/

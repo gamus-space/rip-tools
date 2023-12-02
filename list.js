@@ -11,10 +11,11 @@ if (process.argv.length <= 3) {
 const game = process.argv[2];
 const file = process.argv[3];
 const data = new DataView(fs.readFileSync(file).buffer);
+let pos = 0;
+const result = [];
 
 switch (game) {
 case 'dr':
-	let pos = 0;
 	const count = data.getUint32(pos, true);
 	pos += 4;
 	console.log({ count });
@@ -30,6 +31,31 @@ case 'dr':
 		console.log(file, size);
 	}
 	break;
+case 'tr3':
+	pos = [0x218, 0x55d8][0];
+	while (data.getUint8(pos) !== 0) {
+		const file = readVarStr(data, pos, 256);
+		pos += 260;
+		const size = data.getUint32(pos, true);
+		pos += 4;
+		const offset = data.getUint32(pos, true);
+		pos += 4;
+		result.push({ file, offset, size });
+	}
+	console.log(result);
+	break;
 default:
 	throw 'unknown game: ' + game;
+}
+
+function readVarStr(data, pos, maxLength) {
+	let length;
+	for (let i = 0; i < maxLength; i++) {
+		if (data.getUint8(pos+i) === 0) {
+			length = i;
+			break;
+		}
+	}
+	if (length == null) length = maxLength;
+	return new TextDecoder('ascii').decode(data.buffer.slice(pos, pos+length));
 }
