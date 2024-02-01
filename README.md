@@ -11,6 +11,8 @@ Tools for ripping game music:
 - decrypt.js - decode game resource
 - rip-hmi.js - rip HMI and BNK files
 - split-wav.js - split wavefile into subtracks
+- rip-wav.js - rip WAV files
+- rip-mdk.js - rip from MDK
 
 Supported games:
 - Super Bubble Mania - https://www.mobygames.com/game/dos/super-bubble-mania
@@ -20,3 +22,4 @@ Supported games:
 - Death Rally - https://www.mobygames.com/game/dos/death-rally
 - Tomb Raider 3 - https://www.mobygames.com/game/1428/tomb-raider-iii-adventures-of-lara-croft/
 - Return Fire - https://www.mobygames.com/game/3006/return-fire/
+- MDK - https://www.mobygames.com/game/344/mdk/
