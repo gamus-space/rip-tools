@@ -13,6 +13,7 @@ Tools for ripping game music:
 - split-wav.js - split wavefile into subtracks
 - rip-wav.js - rip WAV files
 - rip-mdk.js - rip from MDK
+- map2wav.js - convert Need for Speed format
 
 Supported games:
 - Super Bubble Mania - https://www.mobygames.com/game/dos/super-bubble-mania
