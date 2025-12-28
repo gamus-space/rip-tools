@@ -37,19 +37,23 @@ let pos = 0;
 while (pos < data.byteLength) {
 	const start = data.findString(pos, 'MThd');
 	if (start == null) break;
-	if (data.getUint16(start+10) !== 1)
-		throw new Error("multitrack midi not supported");
+	let tracks = data.getUint16(start+10);
+	if (tracks === 0)
+		throw new Error("midi without tracks");
 	pos = start+4;
-	const track = data.findString(pos, 'MTrk');
-	if (track == null) break;
-	pos = track+4;
-	const length = data.getUint32(pos);
-	pos += 4;
+	while (tracks--) {
+		const track = data.findString(pos, 'MTrk');
+		if (track == null) break;
+		pos = track+4;
+		const length = data.getUint32(pos);
+		pos += 4;
+		pos += length;
+	}
 
 	count++;
 	let name = `${path.basename(file)}_${String(count).padStart(3, '0')}.mid`;
 
-	if (data.getUint8(pos) === 0 && data.getUint8(pos+1) === 0xff && data.getUint8(pos+2) === 3) {
+	if (data.byteLength >= pos + 8 && data.getUint8(pos) === 0 && data.getUint8(pos+1) === 0xff && data.getUint8(pos+2) === 3) {
 		// Prince of Persia 2
 		const textLength = data.getUint8(pos+3);
 		pos += 4;
@@ -61,7 +65,6 @@ while (pos < data.byteLength) {
 		pos -= 4;
 	}
 
-	pos += length;
 	const end = pos;
 	console.log(name, start, end);
 
