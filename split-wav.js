@@ -74,7 +74,7 @@ tracks.push({ from: trackStart, to: silenceStart ?? samples-1 });
 console.log('\n--- tracks');
 tracks.forEach((track, i) => {
 	const outfile = path.join(path.dirname(file), path.basename(path.basename(file, '.wav'), '.WAV') + `_${i+1}.wav`);
-	console.log(i+1, format(track.from), format(track.to), outfile);
+	console.log(i+1, format(track.from), format(track.to), format(track.to-track.from), outfile);
 	if (op === 'write') {
 		const header = new DataView(data.buffer.slice(0, offset));
 		header.setUint32(4, (track.to-track.from)*bytesPerSample+offset-8, true);
