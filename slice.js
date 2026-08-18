@@ -161,7 +161,7 @@ case 'cf':
 	slice('fodmus.adl', 5, 0x793e, 0x80a9);
 	slice('fodmus.adl', 6, 0x80a9, undefined);
 	break;
-case 'dr':
+case 'dr': {
 	let offset = 0x10F3;
 	slice('MUSICS.BPA', 'MEN-SAM.CMF', offset, offset+=323793);
 	slice('MUSICS.BPA', 'MEN-MUS.CMF', offset, offset+=505857);
@@ -181,6 +181,22 @@ case 'dr':
 	slice('MUSICS.BPA', 'TR9-MUS.CMF', offset, offset+=352794);
 	console.log(offset);
 	break;
+}
+case 'hx': {
+	let offset = 52;
+	slice('musbank.sbk', 'musbank1.raw', offset, offset=1810974);
+	slice('musbank.sbk', 'musbank2.raw', offset, offset=4315768);
+	slice('musbank.sbk', 'musbank3.raw', offset, offset=6384858);
+	slice('musbank.sbk', 'musbank4.raw', offset, offset=9163860);
+	slice('musbank.sbk', 'musbank5.raw', offset, offset=11515274);
+	slice('musbank.sbk', 'musbank6.raw', offset, offset=14269504);
+	slice('musbank.sbk', 'musbank7.raw', offset, offset=16889140);
+	slice('musbank.sbk', 'musbank8.raw', offset, offset=19206342);
+	slice('musbank.sbk', 'musbank9.raw', offset, offset=22018692);
+	slice('musbank.sbk', 'musbank10.raw', offset, offset=24711818);
+	slice('musbank.sbk', 'musbank11.raw', offset, offset=27587042);
+	break;
+}
 case 'tr3a':
 case 'tr3b':
 	for (const entry of data[game]) {

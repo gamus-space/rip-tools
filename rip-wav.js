@@ -39,7 +39,7 @@ while (pos < data.byteLength) {
 	if (signature == null) break;
 	const start = signature;
 	const length = data.getUint32(signature+4, true);
-	if (length > 2**24) {
+	if (length > 2**28) {
 		pos = signature + 8;
 		continue;
 	}
